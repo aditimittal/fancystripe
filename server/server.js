@@ -1,6 +1,6 @@
 const express = require( 'express' )
 const helmet = require( 'helmet' )
-const stripe = require( 'stripe' )( 'sk_test_51IOeZKEEEyvCd8Ef8s9lSDpZybuV72CK8I75GLMKUAPaMFtp2IeoGc4xUWnOFHiuzoLNnD15oDuF0JjF37oFpqwE00Eevmzmih' )
+const stripe = require( 'stripe' )( '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' )
 const _  = require( 'lodash' )
 const path = require('path');
 const bodyParser = require('body-parser')

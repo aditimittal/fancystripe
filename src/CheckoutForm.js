@@ -93,7 +93,7 @@ class CheckoutForm extends Component {
                                     {
                                         payment_method: paymentMethod.id
                                     },
-                                );
+                                )
                             } )
                         } )
                 } )
@@ -143,7 +143,7 @@ const InjectedCheckoutForm = () => {
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
-const stripePromise = loadStripe('pk_test_51IOeZKEEEyvCd8EfTCLGmJaivnDoyrMLBAR0NVgaQWkMINWmbfAcCKo448DxHk6R74SACa0bZ5RRPJ3wSxKBqQn500CIdsvRqx');
+const stripePromise = loadStripe('pk_live_51IOeZKEEEyvCd8EfDKkM4i4Q1y5s1Ez7dyAql2NLCFtfYjG4PBOkDJJxsfOCRgeUb27sQDUr9tbngNXPPmPIW8xO00AJVCb2iK');
 
 const App = () => {
     return (
