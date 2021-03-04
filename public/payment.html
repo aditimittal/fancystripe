@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- Bootstrap -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+      <script src="bootstrap-tab.js"></script>
+       <script src="https://js.stripe.com/v3/"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="styles.css">
+
+      <meta charset="UTF-8">
+   </head >
+   <title>
+       Checkout Page
+   </title>
+   <body>
+      <div class="container">
+         <div class="jumbotron">
+            <h1 class="display-4">Ready to pay?</h1>
+            <p class="lead">The checkout page is the final stop for customers shopping on your website. It’s the place where they finally part with their hard-earned cash and pay for your goods or services.</p>
+         </div>
+         <div id="paymentforms">
+<!--             <div id="card-element">&lt;!&ndash;Stripe.js injects the Card Element&ndash;&gt;</div>-->
+            <ul class="nav nav-tabs">
+               <li class="active"><a data-toggle="tab" href="#cards">Pay with Credit Card</a></li>
+               <li><a data-toggle="tab" href="#otherpm">Other Payment Methods</a></li>
+            </ul>
+            <div class="tab-content">
+               <div id="cards" class="tab-pane fade in active">
+                <form id="payment-form">
+                    <div class="group">
+                      <label>
+                        <span>Name</span>
+                        <input id="cardholder-name" class="field" placeholder="John Doe" />
+                      </label>
+                      <label>
+                        <span>Phone</span>
+                        <input id="phone" class="field" placeholder="(123) 456-7890" type="tel" />
+                      </label>
+                    </div>
+                    <div class="group">
+                      <label>
+                        <span>Card</span>
+                        <input id="card-secure-fields" class="field"></input>
+                      </label>
+                    </div>
+                    <button type="submit">Pay</button>
+                    <p id="card-error" role="alert"></p>
+                    <p class="result-message hidden">
+                        Payment succeeded, see the result in your
+                        <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
+                    </p>
+            </form>
+               </div>
+               <div id="otherpm" class="tab-pane fade">
+                  <p id="pmintro">If the provider you are transacting against supports the <a href="https://developers.paymentsos.com/docs/api/#operation/retrieve-supported-payment-methods" target="_blank">Get Supported Payment Methods API</a>, then the available payment methods will appear in the list below.</p>
+                  <select class="selectpms"></select>
+                  <button id="paybtnapms" type="submit">Pay</button>
+               </div>
+            </div>
+         </div>
+      </div>
+      <script src="https://js.paymentsos.com/v2/latest/secure-fields.min.js"></script>
+      <script type='text/javascript' src="securefields.js"></script>
+      <script type='text/javascript' src="paymentmethods.js"></script>
+   </body>
+</html>

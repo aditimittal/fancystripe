@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css?family=Itim&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Courier+Prime&display=swap');
+.container-fluid {
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+.navbar {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+    letter-spacing: 5px;
+    background-color: rgb(129, 235, 134);
+}
+
+#heading{
+    color:white;
+    font-size: 32px;
+    font-family: 'Itim', cursive;
+}
+
+#heading1{
+    font-size: 34px;
+    font-family: 'Itim', cursive;
+}
+
+.navbar-nav  li a:hover {
+    color: #1abc9c !important;
+}
+
+.footer-padding {
+	padding-bottom: 60px;
+}
+
+.footer {
+	position: relative;
+	text-align: center;
+	bottom: 0;
+	width: 100%;
+	height: 60px;
+	background-color: #1abc9c;
+}
+
+.footer p {
+	margin-top: 25px;
+	font-size: 12px;
+  color: #fff;
+}
+
+
+/* css for the create post file */
+
+.btn-lg{
+    border:none;
+}
+
+img{
+    height:400px;
+    width:auto;
+}
+.img-container{
+    padding-top: 8%;
+}
+
+.text{
+    font-family: 'Itim', cursive;
+   font-size: 41px;
+   border-bottom: 3px solid black;
+}
+
+.title-text{
+    font-family: 'Itim', cursive;
+    font-size: 28px;
+}
+
+.text-container{
+   font-family: 'Itim', cursive;
+   font-size: 32px;
+   padding-top:15%;
+}
+
+.content{
+    border-radius:12px;
+    background-color: rgb(75, 221, 100);
+    padding:20px;
+    margin-bottom:10px;
+    font-family: 'Courier Prime', monospace;
+    font-weight: bold;
+    
+}
+
+.c-container{
+    max-width:1000px;
+}
+.postContainer{
+   padding:50px; 
+}
+
+@import url('https://fonts.googleapis.com/css?family=Pacifico&display=swap');
+
+.post-text{
+    font-family: 'Pacifico', cursive;
+    font-size:25px;
+
+}
+
+.post-title{
+    font-family: 'Itim', cursive;
+    color:red;
+    font-size:38px;
+}
