@@ -33,12 +33,18 @@ class CheckoutForm extends Component {
     async submit( ev ) {
         const { elements, stripe } = this.props
         const cardElement = elements.getElement(CardElement)
+        const formName = document.getElementById( 'name' ).value
         const {error, paymentMethod} = await stripe.createPaymentMethod({
                                                                             type: 'card',
                                                                             card: cardElement,
+                                                                            billing_details: {
+                                                                                name: formName
+                                                                            }
                                                                         });
         let response = null
-        const formName = document.getElementById( 'name' ).value
+
+        const email = document.getElementById( 'email' ).value
+        const quantity = document.getElementById( 'quantity' ).value
         // const card = elements.getElement( CardElement )
         // Did the user check the REMEMBER button?
         if ( document.querySelector( '.remember input' ).checked ) {
@@ -63,40 +69,40 @@ class CheckoutForm extends Component {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify( { id: paymentMethod.id } )
+                body: JSON.stringify( { id: paymentMethod.id, email: email, name: formName } )
             } ).then(function ( data ) {
                 return data.json()
             } ).then(function ( data ) {
-                    fetch( '/create-payment-intent', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify( { clientSecret: data.clientSecret } )
-                    } )
-                        .then( function ( data ) {
-                            return data.json()
-                        } ).then( function ( data ) {
-                            console.log( paymentMethod.id )
-                            console.log( data.clientSecret )
-                            fetch( "/confirm", {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json"
-                                },
-                                body: JSON.stringify( { "paymentMethod" : paymentMethod.id, "paymentIntent": data.clientSecret } )
-                            } ).then( function ( data ) {
-                                return data.json()
-                            } ).then( function ( data ) {
-                                const {paymentIntent, error} = stripe.confirmCardPayment(
-                                    data.clientSecret,
-                                    {
-                                        payment_method: paymentMethod.id
-                                    },
-                                );
-                            } )
-                        } )
+                fetch( '/create-payment-intent', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify( { clientSecret: data.clientSecret, quantity: quantity } )
                 } )
+                    .then( function ( data ) {
+                        return data.json()
+                    } ).then( function ( data ) {
+                    console.log( paymentMethod.id )
+                    console.log( data.clientSecret )
+                    fetch( "/confirm", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify( { "paymentMethod" : paymentMethod.id, "paymentIntent": data.clientSecret } )
+                    } ).then( function ( data ) {
+                        return data.json()
+                    } ).then( function ( data ) {
+                        const {paymentIntent, error} = stripe.confirmCardPayment(
+                            data.clientSecret,
+                            {
+                                payment_method: paymentMethod.id
+                            },
+                        );
+                    } )
+                } )
+            } )
         }
 
         this.setState( { complete: true } )
@@ -120,7 +126,7 @@ class CheckoutForm extends Component {
                 <CardElement />
                 <div id="billed">
                     <h4>Total billed:</h4>
-                    <h4 id="quantity">20€</h4>
+                    <input id="quantity" name="quantity" type="number" required /> (In INR)
                 </div>
                 <div id="extra-actions">
                     <Checkbox key="remember" className="remember">Remember me</Checkbox>
@@ -143,7 +149,7 @@ const InjectedCheckoutForm = () => {
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
-const stripePromise = loadStripe('pk_test_51IOeZKEEEyvCd8EfTCLGmJaivnDoyrMLBAR0NVgaQWkMINWmbfAcCKo448DxHk6R74SACa0bZ5RRPJ3wSxKBqQn500CIdsvRqx');
+const stripePromise = loadStripe('pk_live_51IOeZKEEEyvCd8EfDKkM4i4Q1y5s1Ez7dyAql2NLCFtfYjG4PBOkDJJxsfOCRgeUb27sQDUr9tbngNXPPmPIW8xO00AJVCb2iK');
 
 const App = () => {
     return (
@@ -153,3 +159,4 @@ const App = () => {
     );
 };
 export default injectStripe( App )
+

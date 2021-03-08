@@ -1,6 +1,6 @@
 const express = require( 'express' )
 const helmet = require( 'helmet' )
-const stripe = require( 'stripe' )( 'sk_test_51IOeZKEEEyvCd8Ef8s9lSDpZybuV72CK8I75GLMKUAPaMFtp2IeoGc4xUWnOFHiuzoLNnD15oDuF0JjF37oFpqwE00Eevmzmih' )
+const stripe = require( 'stripe' )( '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' )
 const _  = require( 'lodash' )
 const path = require('path');
 const bodyParser = require('body-parser')
@@ -23,16 +23,16 @@ app.use(express.static("public"));
 app.post( '/chargeAndRemember', async ( req, res ) => {
     try {
         const customer = await stripe.customers.create( {
-            source: req.body,
-            email: 'juan.perez@ejemplo.com'
-        } )
+                                                            source: req.body,
+                                                            email: 'juan.perez@ejemplo.com'
+                                                        } )
 
         const { status } = await stripe.charges.create( {
-            amount: 2000,
-            currency: 'usd',
-            description: 'An example charge',
-            customer: customer.id
-        } )
+                                                            amount: 2000,
+                                                            currency: 'usd',
+                                                            description: 'An example charge',
+                                                            customer: customer.id
+                                                        } )
 
         res.json( { status } )
     } catch ( err ) {
@@ -44,23 +44,23 @@ app.post( '/chargeAndRemember', async ( req, res ) => {
 app.post( '/subscribe', async ( req, res ) => {
     try {
         const customer = await stripe.customers.create( {
-            source: req.body,
-            email: 'juan.perez@ejemplo.com'
-        } )
+                                                            source: req.body,
+                                                            email: 'juan.perez@ejemplo.com'
+                                                        } )
 
         const plan = await stripe.plans.create( {
-            amount: 2000,
-            currency: 'usd',
-            interval: 'month',
-            product: {
-                name: 'An example (monthly) subscription'
-            }
-        } )
+                                                    amount: 2000,
+                                                    currency: 'usd',
+                                                    interval: 'month',
+                                                    product: {
+                                                        name: 'An example (monthly) subscription'
+                                                    }
+                                                } )
 
         const { status } = await stripe.subscriptions.create( {
-            customer: customer.id,
-            plan: plan.id
-        } )
+                                                                  customer: customer.id,
+                                                                  plan: plan.id
+                                                              } )
 
         res.json( { status } )
     } catch ( err ) {
@@ -70,19 +70,19 @@ app.post( '/subscribe', async ( req, res ) => {
 } )
 
 app.post("/create-customer", async (req, res) => {
-    const items  = req.body
+    const customerDet  = req.body
     console.log(req.body)
     try {
         const customer = await stripe.customers.create( {
-                                                          description: 'My First Test Customer (created for API docs)',
-                                                          email: 'juan.perez@ejemplo.com',
-                                                          name: 'testUser'
-                                                      } )
+                                                            description: 'My First Test Customer (created for API docs)',
+                                                            email: customerDet.email,
+                                                            name: customerDet.name
+                                                        } )
         const paymentMethod2 = await stripe.paymentMethods.attach(
-            items.id,
+            customerDet.id,
             { customer: customer.id } )
         res.json( { clientSecret: paymentMethod2.id + '_' + customer.id } )
-   } catch ( err ) {
+    } catch ( err ) {
         console.log( err )
         res.status( 500 ).end()
     }
@@ -95,10 +95,10 @@ app.post("/create-payment-intent", async (req, res) => {
     console.log(paymentMethod.clientSecret)
     var result = paymentMethod.clientSecret.split('_')
     const paymentIntent = await stripe.paymentIntents.create({
-                                                                 amount: 100,
+                                                                 amount: paymentMethod.quantity*100,
                                                                  currency: "inr",
                                                                  payment_method: result[0]+'_'+result[1],
-                                                                customer: result[2]+'_'+result[3]
+                                                                 customer: result[2]+'_'+result[3]
                                                              });
     res.json({
                  clientSecret: paymentIntent.client_secret
@@ -127,3 +127,4 @@ const port = 8000
 app.listen( port, () => {
     console.log( `running at localhost: ${port}` )
 } )
+
